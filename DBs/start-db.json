@@ -1,0 +1,72 @@
+[
+  {
+    "aboutMe": "я круто чувак 1001%",
+    "fullName": "samurai dimych",
+    "status": "My status youu",
+    "userId": 2,
+    "photos": {
+      "small": "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=0",
+      "large": "https://social-network.samuraijs.com/activecontent/images/users/2/user.jpg?v=0"
+    }
+  },
+  {
+    "aboutMe": "Heu Wassup!",
+    "fullName": "Sim Salavim",
+    "status": "I love KHINKALI",
+    "userId": 3,
+    "photos": {
+      "small": "https://images.gr-assets.com/authors/1462292054p8/592320.jpg",
+      "large": "https://images.gr-assets.com/authors/1462292054p8/592320.jpg"
+    }
+  },
+  {
+    "aboutMe": "mr.White Teeth",
+    "fullName": "Vladimir",
+    "status": "I want some dumplings",
+    "userId": 4,
+    "photos": {
+      "small": "https://i.warosu.org/data/fa/img/0104/10/1442930119975.jpg",
+      "large": "https://i.warosu.org/data/fa/img/0104/10/1442930119975.jpg"
+    }
+  },
+  {
+    "aboutMe": "im a programmer",
+    "fullName": "Artem",
+    "status": "I want to hack your tits",
+    "userId": 5,
+    "photos": {
+      "small": "https://www.techgallop.com/wp-content/uploads/2019/10/p5-1.jpg",
+      "large": "https://www.techgallop.com/wp-content/uploads/2019/10/p5-1.jpg"
+    }
+  },
+  {
+    "aboutMe": "im a ginger hair guy",
+    "fullName": "Rodger",
+    "status": "Wassup bruh, gimme Hermeona",
+    "userId": 6,
+    "photos": {
+      "small": "https://images-prod.boredomfiles.com/wp-content/uploads/po/2020/08/Rupert-Grint-feat.jpg",
+      "large": "https://images-prod.boredomfiles.com/wp-content/uploads/po/2020/08/Rupert-Grint-feat.jpg"
+    }
+  },
+  {
+    "aboutMe": "im happy DOGGO",
+    "fullName": "BOBik",
+    "status": "Affffff",
+    "userId": 7,
+    "photos": {
+      "small": "https://webmg.ru/wp-content/uploads/2022/09/i-29-8.jpeg",
+      "large": "https://webmg.ru/wp-content/uploads/2022/09/i-29-8.jpeg"
+    }
+  },
+  {
+    "aboutMe": "DOGGO eater",
+    "fullName": "Smetanka",
+    "status": "I from the hood",
+    "userId": 8,
+    "photos": {
+      "small": "https://pbs.twimg.com/media/DxtH_FaXgAAvYfa.jpg:large",
+      "large": "https://pbs.twimg.com/media/DxtH_FaXgAAvYfa.jpg:large"
+    }
+  }
+]
