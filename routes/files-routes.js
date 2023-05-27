@@ -6,6 +6,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 router.post('/avatar', FilesController.avatarUploading );
+router.get('/avatar/extensions', FilesController.allowedExtensions );
 
 
 module.exports = router;

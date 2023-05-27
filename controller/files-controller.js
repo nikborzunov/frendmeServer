@@ -13,6 +13,20 @@ app.use(cookieParser());
 
 class FilesController {
 
+    async allowedExtensions(req, res, next) {
+
+        try {
+            const extensions = process.env.allowedExtensions.split(',');
+            const maxSizeOfFileLoad = process.env.maxSizeOfFileLoad;
+
+            return res.json({ extensions, maxSizeOfFileLoad });
+        } catch (e) {
+            console.log(e)
+            return res.status(400).json({ message: 'Upload avatar error' })
+        }
+    }
+
+
     async avatarUploading(req, res, next) {
         try {
             const file = req.files.file;
