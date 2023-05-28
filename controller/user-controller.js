@@ -110,10 +110,6 @@ class UserController {
             const userId = refreshTokenResult.user;
             const user = await SignUpModel.findOne(userId)
 
-            console.log('started')
-            console.log(user)
-            console.log(req.body)
-
             if(req.body.name){
                 user.name = req.body.name;
             }
@@ -183,7 +179,7 @@ class UserController {
 
     async getUsers(req, res, next) {
         try {
-            const users = await UserService.getAllUsers();
+            const users = await UserService.getAllUsers(req);
             return res.json(users);
 
         } catch (e) {

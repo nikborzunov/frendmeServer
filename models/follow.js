@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const followMeSchema = new Schema({
-    userId: Number,
-    friendId: Number,
+    senderId: String,
+    recieverId: String,
     isAccepted: Boolean,
 });
 

@@ -1,6 +1,8 @@
 const SignUpModel = require('../models/signup');
 const TokenModel = require('../models/token-model');
-const profileSchema = require('../models/profile');
+const photoModel = require('../models/photos');
+const FollowModel = require('../models/follow');
+
 
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
@@ -8,6 +10,8 @@ const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const UserDtoOrig = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
+const { ObjectId } = require('mongodb');
+
 
 class UserService {
     async registration(email, password) {
@@ -17,9 +21,9 @@ class UserService {
         }
         const activationLink = uuid.v4();
         const hashPassword = await bcrypt.hash(password, 3)
-        const user = await SignUpModel.create({ email, password: hashPassword, name: '', aboutMe: '', status: '', activationLink: '', avatar: ''})
-        await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
+        const user = await SignUpModel.create({ email, password: hashPassword, name: '', aboutMe: '', status: '', activationLink: '', avatar: '' })
 
+        // await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
         const UserDto = new UserDtoOrig(user);
         const tokens = tokenService.generateTokens({ ...UserDto })
         await tokenService.saveToken(UserDto.id, tokens.refreshToken);
@@ -64,21 +68,21 @@ class UserService {
     async getAuth(req) {
         const cookiesArray = req.cookies;
 
-            if (cookiesArray.tokens.refreshToken) {
-                const refreshToken = cookiesArray.tokens.refreshToken;
-                const refreshTokenResult = await TokenModel.findOne({ refreshToken })
-                const userId = refreshTokenResult.user;
-                const userDataById = await SignUpModel.findOne( userId )
+        if (cookiesArray.tokens.refreshToken) {
+            const refreshToken = cookiesArray.tokens.refreshToken;
+            const refreshTokenResult = await TokenModel.findOne({ refreshToken })
+            const userId = refreshTokenResult.user;
+            const userDataById = await SignUpModel.findOne(userId)
 
-                let email = userDataById.email;
-                let name = userDataById.name;
-                let id = JSON.stringify(userDataById._id);
+            let email = userDataById.email;
+            let name = userDataById.name;
+            let id = JSON.stringify(userDataById._id);
 
-                id = id.split('\"')[1];
+            id = id.split('\"')[1];
 
-                return { email, id, login: name }
-            }
-            return next(ApiError.UnauthorizedError());
+            return { email, id, login: name }
+        }
+        return next(ApiError.UnauthorizedError());
     }
 
     async getProfile(userId) {
@@ -132,9 +136,32 @@ class UserService {
         }
     }
 
-    async getAllUsers() {
+    async getAllUsers(req) {
         const users = await SignUpModel.find();
-        return users;
+        const photos = await photoModel.find();
+
+        const cookiesArray = req.cookies;
+        const refreshToken = cookiesArray.tokens.refreshToken;
+        const refreshTokenResult = await TokenModel.findOne({ refreshToken })
+        const userId = refreshTokenResult.user.valueOf();
+        const recieverId = req.params.id
+        const allMyFollows = await FollowModel.find({ senderId: userId })
+
+        allMyFollows.map(u => {
+
+            for (let i = 0; i < users.length; i++) {
+                if (users[i]._id.valueOf() === u.recieverId) {
+                    if (u.isAccepted) {
+                        users[i]._doc.followed = true;
+                        users[i]._doc.isAccepted = true;
+                    } else {
+                        users[i]._doc.followed = true;
+                    }
+                }
+            }
+        })
+
+        return { users, photos };
     }
 }
 

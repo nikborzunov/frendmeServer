@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const PORT = 5000;
-const profileRoutes = require('./routes/profile-routes');
 const fileRoutes = require('./routes/files-routes');
 const followRoutes = require('./routes/follow-routes');
 const signupRoutes = require('./routes/signup-routes');
@@ -27,7 +26,6 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(profileRoutes);
 app.use(followRoutes);
 app.use(signupRoutes);
 app.use(errorMiddleware)
