@@ -66,6 +66,7 @@ class UserService {
     }
 
     async getAuth(req) {
+
         const cookiesArray = req.cookies;
 
         if (cookiesArray.tokens.refreshToken) {
@@ -148,7 +149,6 @@ class UserService {
         const allMyFollows = await FollowModel.find({ senderId: userId })
 
         allMyFollows.map(u => {
-
             for (let i = 0; i < users.length; i++) {
                 if (users[i]._id.valueOf() === u.recieverId) {
                     if (u.isAccepted) {
@@ -163,6 +163,137 @@ class UserService {
 
         return { users, photos };
     }
+
+    async getAllCities(req) {
+        const citiesRecieved = await SignUpModel.find({}, { "city": 1 });
+        let cities = [];
+
+        citiesRecieved.map(u => {
+            for (let i = 0; i < citiesRecieved.length; i++) {
+                if (citiesRecieved[i]._id.valueOf() === u._id.valueOf()) {
+                    cities.push({ value: citiesRecieved[i]._doc.city, label: citiesRecieved[i]._doc.city });
+                }
+            }
+        })
+
+        return { cities };
+    }
+
+    async getFilteredByCities(req) {
+
+        const usersRecieved = await SignUpModel.find();
+        const photos = await photoModel.find();
+
+        const cookiesArray = req.cookies;
+        const refreshToken = cookiesArray.tokens.refreshToken;
+        const refreshTokenResult = await TokenModel.findOne({ refreshToken })
+        const userId = refreshTokenResult.user.valueOf();
+        const recieverId = req.params.id
+        const allMyFollows = await FollowModel.find({ senderId: userId })
+
+        const city = req.body.city;
+        const name = req.body.name;
+
+        let users = [];
+
+        if (JSON.stringify(req.body) == '{}') {
+            console.log(req.body + ' is Empty!')
+
+            users = usersRecieved;
+
+            allMyFollows.map(u => {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i]._id.valueOf() === u.recieverId) {
+                        if (u.isAccepted) {
+                            users[i]._doc.followed = true;
+                            users[i]._doc.isAccepted = true;
+                        } else {
+                            users[i]._doc.followed = true;
+                        }
+                    }
+                }
+            })
+
+            return { users };
+        }
+
+        allMyFollows.map(u => {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i]._id.valueOf() === u.recieverId) {
+                    if (u.isAccepted) {
+                        users[i]._doc.followed = true;
+                        users[i]._doc.isAccepted = true;
+                    } else {
+                        users[i]._doc.followed = true;
+                    }
+                }
+            }
+        })
+
+
+        if (city && name) {
+            const nameFilter = await SignUpModel.find({ "name": name });
+
+            nameFilter.map(u => {
+                if (u.city.valueOf() === city) {
+                    users.push(u);
+                }
+            })
+
+            if (!users) {
+                return { users: 'Nobody with this name in a given city' };
+            }
+            
+
+            return { users };
+        }
+
+        if (name) {
+            const nameFilter = await SignUpModel.find({ "name": name });
+
+            users = nameFilter
+
+            allMyFollows.map(u => {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i]._id.valueOf() === u.recieverId) {
+                        if (u.isAccepted) {
+                            users[i]._doc.followed = true;
+                            users[i]._doc.isAccepted = true;
+                        } else {
+                            users[i]._doc.followed = true;
+                        }
+                    }
+                }
+            })
+
+            return { users };
+        }
+
+        if (!name) {
+            const citiesFilter = await SignUpModel.find({ "city": city });
+
+            users = citiesFilter
+
+            allMyFollows.map(u => {
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i]._id.valueOf() === u.recieverId) {
+                        if (u.isAccepted) {
+                            users[i]._doc.followed = true;
+                            users[i]._doc.isAccepted = true;
+                        } else {
+                            users[i]._doc.followed = true;
+                        }
+                    }
+                }
+            })
+
+            return { users };
+        }
+
+        return { users: null };
+    }
+
+
 }
 
 module.exports = new UserService();

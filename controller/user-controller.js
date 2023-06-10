@@ -63,7 +63,9 @@ class UserController {
             const userId = req.params.id;
             let id = new mongoose.Types.ObjectId(userId);
             const userData = await UserService.getProfile(id);
-            return res.json(userData);
+            const userAuthData = await UserService.getAuth(req);
+
+            return res.json({userData, userAuthData});
         } catch (e) {
             next(e);
         }
@@ -188,6 +190,29 @@ class UserController {
         }
     }
 
+    async getAllCities(req, res, next) {
+        try {
+            const cities = await UserService.getAllCities(req);
+            return res.json(cities);
+
+        } catch (e) {
+            next(e);
+
+        }
+    }
+
+    async getFilteredByCities(req, res, next) {
+        try {
+            const cities = await UserService.getFilteredByCities(req);
+            return res.json(cities);
+
+        } catch (e) {
+            next(e);
+
+        }
+    }
+
+    
 }
 
 module.exports = new UserController();

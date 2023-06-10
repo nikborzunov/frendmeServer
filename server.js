@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const PORT = 5000;
 const fileRoutes = require('./routes/files-routes');
+const postsRouts = require('./routes/post-routes');
 const followRoutes = require('./routes/follow-routes');
 const signupRoutes = require('./routes/signup-routes');
 const cookieParser = require('cookie-parser')
@@ -30,6 +31,7 @@ app.use(followRoutes);
 app.use(signupRoutes);
 app.use(errorMiddleware)
 app.use(fileRoutes);
+app.use(postsRouts);
 app.use(express.static('static'))
 
 
