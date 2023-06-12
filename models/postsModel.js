@@ -7,6 +7,7 @@ const postsSchema = new Schema({
     userIdWallReviever: String,
     post: String,
     time: String,
+    postId: String,
 });
 
 const post = mongoose.model('post', postsSchema);

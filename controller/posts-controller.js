@@ -9,11 +9,11 @@ const PostsService = require('../service/posts-service');
 const app = express();
 app.use(cookieParser());
 
-class UserController {
+class postController {
 
     async postsUpload(req, res, next) {
         try {
-            
+
             let post = req.body.post;
             let wallId = req.params.id;
 
@@ -32,7 +32,7 @@ class UserController {
     async getPosts(req, res, next) {
         try {
             let wallId = req.params.id;
-            const posts = await PostsService.getAllPosts( wallId );
+            const posts = await PostsService.getAllPosts(wallId);
 
 
             return res.json(posts);
@@ -42,7 +42,37 @@ class UserController {
 
         }
     }
-    
+
+    async postLikeAdd(req, res, next) {
+
+        try {
+
+            let postId = req.body.postId;
+            const posts = await PostsService.addLike(postId, req);
+
+            return res.json(posts);
+
+        } catch (e) {
+            next(e);
+
+        }
+    }
+
+    async getAllLikesPosts(req, res, next) {
+
+        try {
+
+            let userId = req.params.id;
+            const posts = await PostsService.getAllLikesPostsService(userId, req);
+
+            return res.json(posts);
+
+        } catch (e) {
+            next(e);
+
+        }
+    }
+
 }
 
-module.exports = new UserController();
+module.exports = new postController();
