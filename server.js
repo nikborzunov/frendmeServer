@@ -6,6 +6,7 @@ const fileRoutes = require('./routes/files-routes');
 const postsRouts = require('./routes/post-routes');
 const followRoutes = require('./routes/follow-routes');
 const signupRoutes = require('./routes/signup-routes');
+const messengerRoutes = require('./routes/messenger-routes');
 const cookieParser = require('cookie-parser')
 const cors = require("cors");
 const errorMiddleware = require('../APIfrendme/middlewares/error-middleware')
@@ -32,6 +33,8 @@ app.use(signupRoutes);
 app.use(errorMiddleware)
 app.use(fileRoutes);
 app.use(postsRouts);
+app.use(messengerRoutes);
+
 app.use(express.static('static'))
 
 

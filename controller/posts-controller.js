@@ -28,6 +28,20 @@ class postController {
     }
 
 
+    async postsDelete(req, res, next) {
+        try {
+
+            const postId = req.params.id;
+
+            const postData = await PostsService.postsDelete(postId);
+
+            return res.json(postData);
+
+        } catch (e) {
+            next(e);
+        }
+    }
+
 
     async getPosts(req, res, next) {
         try {

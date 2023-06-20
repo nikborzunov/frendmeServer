@@ -35,6 +35,15 @@ class PostsService {
         }
     }
 
+    async postsDelete(postId) {
+
+        const postInfo = await postsModel.deleteOne({postId})
+
+        return {
+            postInfo,
+        }
+    }
+
     async getAllPosts(wallId) {
         const posts = await postsModel.find({ userIdWallReviever: wallId });
 

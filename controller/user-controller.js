@@ -190,6 +190,17 @@ class UserController {
         }
     }
 
+    async getSIdebarFriends(req, res, next) {
+        try {
+            const users = await UserService.getSIdebarFriends(req);
+            return res.json(users);
+
+        } catch (e) {
+            next(e);
+
+        }
+    }
+
     async getAllCities(req, res, next) {
         try {
             const cities = await UserService.getAllCities(req);

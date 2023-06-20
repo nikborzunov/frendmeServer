@@ -164,6 +164,34 @@ class UserService {
         return { users, photos };
     }
 
+
+    async getSIdebarFriends(req) {
+        const users = await SignUpModel.find();
+        const photos = await photoModel.find();
+
+        const cookiesArray = req.cookies;
+        const refreshToken = cookiesArray.tokens.refreshToken;
+        const refreshTokenResult = await TokenModel.findOne({ refreshToken })
+        const userId = refreshTokenResult.user.valueOf();
+        const recieverId = req.params.id
+        const allMyFollows = await FollowModel.find({ senderId: userId })
+
+        allMyFollows.map(u => {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i]._id.valueOf() === u.recieverId) {
+                    if (u.isAccepted) {
+                        users[i]._doc.followed = true;
+                        users[i]._doc.isAccepted = true;
+                    } else {
+                        users[i]._doc.followed = true;
+                    }
+                }
+            }
+        })
+
+        return { users, photos };
+    }
+
     async getAllCities(req) {
         const citiesRecieved = await SignUpModel.find({}, { "city": 1 });
         let cities = [];

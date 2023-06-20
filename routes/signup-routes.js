@@ -14,6 +14,7 @@ router.post('/logout', UserController.logout);
 router.get('/api/activate/:link', UserController.activate);
 router.get('/refresh', UserController.refresh);
 router.get('/users', userAuthMiddleware, UserController.getUsers);
+router.get('/users/sidebar', userAuthMiddleware, UserController.getSIdebarFriends);
 router.get('/users/cities', authMiddleware, UserController.getAllCities);
 router.post('/users/filter', authMiddleware, UserController.getFilteredByCities);
 router.get('/authme', authMiddleware, UserController.getAuth);
